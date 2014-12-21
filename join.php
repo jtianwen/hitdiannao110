@@ -30,6 +30,24 @@
 	    infoForm.college.focus();
 	    return (false);
 	  }
+	  if (infoForm.phone.value == "")
+	  {
+	    alert("请输入手机号码");
+	    infoForm.phone.focus();
+	    return (false);
+	  }
+	  if (infoForm.qq.value == "")
+	  {
+	    alert("请输入QQ号");
+	    infoForm.qq.focus();
+	    return (false);
+	  }
+	  if (infoForm.email.value == "")
+	  {
+	    alert("请输入电子邮箱");
+	    infoForm.email.focus();
+	    return (false);
+	  }
 	  if (infoForm.nickname.value == "")
 	  {
 	    alert("请输入昵称");
@@ -78,6 +96,22 @@
 		font: 700 20px "STXihei";
 	}
 	</style>
+	<?php
+		require_once("./volunteer.class.php");
+		$valid = false;
+		if(!empty($_POST)){
+			$name = $_POST['name'];
+			$sex = $_POST['sex'];
+			$studentid = $_POST['studentid'];
+			$college = $_POST['college'];
+			$phone = $_POST['phone'];
+			$qq = $_POST['qq'];
+			$email = $_POST['email'];
+			$nickname = $_POST['nickname'];
+			$password = $_POST['password1'];
+			$valid = true;
+		}
+	?>
 </head>
 
 <body>
@@ -94,6 +128,13 @@
 				<div class="row">
 					学号：<input name="studentid" type="text" />
 					学院：<input name="college" type="text" />
+				</div>
+				<div class="row">
+					手机号码：<input name="phone" type="text" />
+					QQ号：<input name="qq" type="text" />
+				</div>
+				<div class="row">
+					电子邮箱：<input name="email" type="text" />
 				</div>
 			</fieldset>
 			</div>
@@ -119,6 +160,12 @@
 			</div>
 		</form>
 	</div>
-
+	<?php
+		if($valid){
+			$volunteer = new Volunteer($name, $sex, $studentid, $college, $phone, $qq, $email, $nickname, $password);
+			$volunteer->insert();
+			echo '<script>alert("已提交您的志愿者申请，审核中……")</script>';
+		}
+	?>
 </body>
 </html>
