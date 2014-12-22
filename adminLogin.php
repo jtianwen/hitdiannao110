@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>志愿者登录</title>
+	<title>管理员登录</title>
 	<meta charset="utf-8">
 	<script language=JavaScript>
 	function InputCheck(infoForm)
 	{
-	  if (infoForm.nickname.value == "")
+	  if (infoForm.name.value == "")
 	  {
-	    alert("请输入昵称");
-	    infoForm.nickname.focus();
+	    alert("请输入姓名");
+	    infoForm.name.focus();
 	    return (false);
 	  }
 	  if (infoForm.password.value == "")
@@ -45,27 +45,25 @@
 </head>
 
 <body>
-	<h1 class="title">志愿者登录</h1>
+	<h1 class="title">管理员登录</h1>
 	<div class="form">
-		<form name="infoForm" action="#" method="post" onSubmit="return InputCheck(this)">
+		<form name="infoForm" action="adminHome.php" method="post" onSubmit="return InputCheck(this)">
 			<div class="row">
 				<fieldset>
 					<legend>登录</legend>
 					<div class="row">
-						昵称：<input name="nickname" type="text" />
+						姓名：<input name="name" type="text" />
 					</div>
 					<div class="row">
 						密码：<input name="password" type="password" />
 					</div>
 				</fieldset>
 			</div>
-			
 			<div class="row">
 				<button type="submit">登录</button>
-				<a class="button" href="index.html">返回主页</a>
+				<a href="index.html">返回主页</a>
 			</div>
 		</form>
 	</div>
-
 </body>
 </html>

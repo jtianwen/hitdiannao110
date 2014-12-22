@@ -41,6 +41,26 @@
         {
             mysql_close($this->conn);
         }
+
+        /**
+         * 通过sql语句获取数据
+         * @return: array()
+         */
+        public function getObjListBySql($sql)
+        {
+            $this->open();
+            $rs = mysql_query($sql,$this->conn);
+            $objList = array();
+            while($obj = mysql_fetch_object($rs))
+            {
+                if($obj)
+                {
+                    $objList[] = $obj;
+                }
+            }
+            $this->close();
+            return $objList;
+        }
         /**
          * 向数据库表中插入数据
          * @param：$table,表名
@@ -74,6 +94,56 @@
             $id = mysql_insert_id($this->conn);
             $this->close();
             return $id;
+        }
+        /**
+         * 通过表中的某一属性获取数据
+         */
+        public function getDataByAtr($tableName,$atrName,$atrValue){
+            @$data = $this->getObjListBySql("SELECT * FROM ".$tableName." WHERE $atrName = '$atrValue'");
+            if(count($data)!=0)return $data;
+            return NULL;   
+        }
+        /**
+         * 通过表中的"id"，删除记录
+         */
+        public function delete($tableName,$atrName,$atrValue){
+            $this->open();
+            $deleteResult = false;
+            if(mysql_query("DELETE FROM ".$tableName." WHERE $atrName = '$atrValue'")) $deleteResult = true;
+            $this->close();
+            if($deleteResult) return true;
+            else return false;
+        }
+        /**
+         * 更新表中的属性值
+         */
+        public function updateParamById($tableName,$atrName,$atrValue,$key,$value){
+            $db = new DB();
+            $db->open();
+            if(mysql_query("UPDATE ".$tableName." SET $key = '$value' WHERE $atrName = '$atrValue' ")){  //$key不要单引号
+                $db->close();
+                return true;
+            }
+            else{
+                $db->close();
+                return false;
+            }
+        }
+        /*
+         * @description: 取得一个table的所有属性名
+         * @param: $tbName 表名
+         * @return：字符串数组
+         */
+        public function fieldName($tbName){
+            $resultName=array();
+            $i=0;
+            $this->open();
+            $result = mysql_query("SELECT * FROM $tbName");
+            while ($property = mysql_fetch_field($result)){
+                $resultName[$i++]=$property->name;
+            }
+            $this->close();
+            return $resultName;
         }
 	}
 ?>
